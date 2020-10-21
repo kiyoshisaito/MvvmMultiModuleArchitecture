@@ -1,0 +1,6 @@
+include ':di'
+include ":testlib"
+include ":domain"
+include ":repository"
+include ":app"
+rootProject.name = "MvvmMultiModuleArchitecture"

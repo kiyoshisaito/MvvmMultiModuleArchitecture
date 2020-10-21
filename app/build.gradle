@@ -1,0 +1,72 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: "androidx.navigation.safeargs.kotlin"
+
+android {
+    compileSdkVersion build_versions.target_sdk
+    buildToolsVersion build_versions.build_tools
+
+    defaultConfig {
+        applicationId "com.example.mvvmmultimodule"
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+dependencies {
+    implementation project(":di")
+    implementation project(":domain")
+
+    implementation deps.kotlin.stdlib
+
+    implementation deps.core_ktx
+    implementation deps.app_compat
+    implementation deps.recyclerview
+    implementation deps.constraint_layout
+    androidTestImplementation deps.app_compat
+    androidTestImplementation deps.recyclerview
+    androidTestImplementation deps.atsl.core
+    androidTestImplementation deps.atsl.ext_junit
+    androidTestImplementation deps.atsl.rules
+
+    implementation deps.activity.activity_ktx
+    implementation deps.fragment.fragment
+    implementation deps.fragment.fragment_ktx
+    debugImplementation deps.fragment.fragment_testing
+
+    implementation deps.navigation.navigation_fragment
+    implementation deps.navigation.navigation_ui
+    implementation deps.navigation.navigation_fragment_ktx
+    implementation deps.navigation.navigation_ui_ktx
+    implementation deps.navigation.navigation_dynamic_features_fragment
+    androidTestImplementation deps.navigation.navigation_testing
+
+    implementation deps.coil.coil
+
+    implementation deps.stetho.stetho
+
+}
+repositories {
+    mavenCentral()
+}

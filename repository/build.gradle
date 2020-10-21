@@ -1,0 +1,63 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion build_versions.target_sdk
+    buildToolsVersion build_versions.build_tools
+
+    defaultConfig {
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        def properties = new Properties()
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+        def HOT_PEPPER_API_KEY = properties.getProperty("hot_pepper_api_key")
+        buildConfigField "String", "HOT_PEPPER_API_KEY", "\"$HOT_PEPPER_API_KEY\""
+    }
+
+    buildTypes {
+        debug {
+
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation project(":domain")
+    testImplementation project(":testlib")
+
+    implementation deps.kotlin.stdlib
+
+    implementation deps.preference.preference
+    implementation deps.preference.preference_ktx
+
+    implementation deps.retrofit.okhttp
+    implementation deps.retrofit.okhttp_logging_interceptor
+    implementation deps.retrofit.retrofit
+    implementation deps.retrofit.converter_moshi
+    implementation deps.retrofit.moshi
+    implementation deps.retrofit.kotshi_api
+    kapt deps.retrofit.kotshi_compiler
+    implementation deps.retrofit.retrofit2_kotlin_coroutines_adapter
+
+    implementation deps.coroutines.core
+    implementation deps.coroutines.android
+
+    api deps.room.runtime
+    kapt deps.room.compiler
+    api deps.room.ktx
+    testApi deps.room.testing
+}
+repositories {
+    mavenCentral()
+}

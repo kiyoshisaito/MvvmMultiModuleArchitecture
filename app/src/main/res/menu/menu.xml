@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/ten"
+        android:title="@string/menu_get_10"
+        app:showAsAction="never" />
+    <item android:id="@+id/twenty"
+        android:title="@string/menu_get_20"/>
+</menu>

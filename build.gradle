@@ -1,0 +1,29 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    apply from: 'versions.gradle'
+    addRepos(repositories)
+    dependencies {
+        classpath deps.android_gradle_plugin
+        classpath deps.kotlin.plugin
+        classpath deps.kotlin.allopen
+        classpath deps.navigation.safe_args_plugin
+        classpath deps.koin.gradle_plugin
+        classpath deps.junit5.android_junit5
+    }
+    repositories {
+        mavenCentral()
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+apply plugin: 'koin'

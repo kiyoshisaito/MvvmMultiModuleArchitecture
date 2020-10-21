@@ -1,0 +1,224 @@
+/*
+ * Copyright (C) 2018 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
+/**
+ * Shared file between builds so that they can all use the same dependencies and
+ * maven repositories.
+ **/
+ext.deps = [:]
+def versions = [:]
+ext.versions = versions
+
+def deps = [:]
+ext.deps = deps
+
+/* ************************************************************************************** */
+/* root, common */
+static def addRepos(RepositoryHandler handler) {
+    handler.google()
+    handler.jcenter()
+    handler.maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+}
+ext.addRepos = this.&addRepos
+
+versions.android_gradle_plugin = '4.1.0'
+versions.junit5 = "1.6.2.0"
+versions.koin = '2.2.0-rc-2'
+versions.kotlin = "1.4.10"
+
+deps.android_gradle_plugin = "com.android.tools.build:gradle:$versions.android_gradle_plugin"
+
+def build_versions = [:]
+ext.build_versions = build_versions
+build_versions.min_sdk = 21
+build_versions.target_sdk = 30
+build_versions.build_tools = "30.0.2"
+
+def junit5 = [:]
+deps.junit5 = junit5
+junit5.android_junit5 = "de.mannodermaus.gradle.plugins:android-junit5:$versions.junit5"
+
+def koin = [:]
+deps.koin = koin
+koin.gradle_plugin = "org.koin:koin-gradle-plugin:$versions.koin" // Koin for root gradle classpath
+
+def kotlin = [:]
+deps.kotlin = kotlin
+kotlin.stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin"
+kotlin.test = "org.jetbrains.kotlin:kotlin-test-junit:$versions.kotlin"
+kotlin.plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
+kotlin.allopen = "org.jetbrains.kotlin:kotlin-allopen:$versions.kotlin"
+
+
+/* ************************************************************************************** */
+/* ************************************************************************************** */
+/* app module */
+versions.activity = '1.1.0'
+versions.appcompat = "1.2.0"
+versions.atsl_core = "1.0.0"
+versions.atsl_junit = "1.1.2"
+versions.coil = "1.0.0-rc3"
+versions.core_ktx = "1.3.2"
+versions.constraint_layout = "2.0.1"
+versions.fragment = "1.2.5"
+versions.navigation = "2.3.0"
+versions.recycelrview = "1.1.0"
+versions.stetho = "1.5.1"
+
+def activity = [:]
+deps.activity = activity
+activity.activity_ktx = "androidx.activity:activity-ktx:$versions.activity"
+
+deps.app_compat = "androidx.appcompat:appcompat:$versions.appcompat"
+deps.core_ktx = "androidx.core:core-ktx:$versions.core_ktx"
+deps.constraint_layout = "androidx.constraintlayout:constraintlayout:$versions.constraint_layout"
+deps.recyclerview = "androidx.recyclerview:recyclerview:$versions.recyclerview"
+
+def atsl = [:]
+deps.atsl = atsl
+atsl.core = "androidx.test:core:$versions.atsl_core"
+atsl.ext_junit = "androidx.test.ext:junit:$versions.atsl_junit"
+
+def coil = [:]
+deps.coil = coil
+coil.coil = "io.coil-kt:coil:$versions.coil"
+
+def fragment = [:]
+deps.fragment = fragment
+fragment.fragment = "androidx.fragment:fragment:$versions.fragment"
+fragment.fragment_ktx = "androidx.fragment:fragment-ktx:$versions.fragment"
+fragment.fragment_testing = "androidx.fragment:fragment-testing:$versions.fragment"
+
+def navigation = [:]
+deps.navigation = navigation
+navigation.navigation_fragment = "androidx.navigation:navigation-fragment:$versions.navigation"
+navigation.navigation_ui = "androidx.navigation:navigation-ui:$versions.navigation"
+navigation.navigation_fragment_ktx = "androidx.navigation:navigation-fragment-ktx:$versions.navigation"
+navigation.navigation_ui_ktx = "androidx.navigation:navigation-ui-ktx:$versions.navigation"
+navigation.navigation_dynamic_features_fragment = "androidx.navigation:navigation-dynamic-features-fragment:$versions.navigation"
+navigation.navigation_testing = "androidx.navigation:navigation-testing:$versions.navigation"
+navigation.safe_args_plugin = "androidx.navigation:navigation-safe-args-gradle-plugin:$versions.navigation"
+
+def stetho = [:]
+deps.stetho = stetho
+stetho.stetho = "com.facebook.stetho:stetho:$versions.stetho"
+
+
+/* ************************************************************************************** */
+/* ************************************************************************************** */
+/* domain */
+versions.lifecycle = "2.2.0"
+
+def lifecycle = [:]
+deps.lifecycle = lifecycle
+lifecycle.viewmodel_ktx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.lifecycle" // ViewModel
+lifecycle.livedata_ktx = "androidx.lifecycle:lifecycle-livedata-ktx:$versions.lifecycle" // LiveData
+lifecycle.runtime_ktx = "androidx.lifecycle:lifecycle-runtime-ktx:$versions.lifecycle" // Lifecycles only (without ViewModel or LiveData)
+lifecycle.viewmodel_savedstate = "androidx.lifecycle:lifecycle-viewmodel-savedstate:$versions.lifecycle" // Saved state module for ViewModel
+lifecycle.compiler = "androidx.lifecycle:lifecycle-compiler:$versions.lifecycle" // Annotation processor
+lifecycle.common_java8 = "androidx.lifecycle:lifecycle-common-java8:$versions.lifecycle" // alternately - if using Java8, use the following instead of lifecycle-compiler
+lifecycle.service = "androidx.lifecycle:lifecycle-service:$versions.lifecycle" // optional - helpers for implementing LifecycleOwner in a Service
+lifecycle.process = "androidx.lifecycle:lifecycle-process:$versions.lifecycle" // optional - ProcessLifecycleOwner provides a lifecycle for the whole application process
+lifecycle.reactivestreams_ktx = "androidx.lifecycle:lifecycle-reactivestreams-ktx:$versions.lifecycle" // optional - ReactiveStreams support for LiveData
+
+
+/* ************************************************************************************** */
+/* ************************************************************************************** */
+/* repository */
+versions.coroutines = "1.3.9"
+versions.preference = "1.1.1"
+versions.okhttp = "3.14.9"
+versions.okhttp_logging = "3.10.0"
+versions.retrofit = "2.9.0"
+versions.moshi = "1.8.0"
+versions.kotshi = "2.2.3"
+versions.retrofit2_kotlin_coroutines_adapter = "0.9.2"
+versions.room = "2.2.5"
+
+def coroutines = [:]
+deps.coroutines = coroutines
+coroutines.android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.coroutines"
+coroutines.core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.coroutines"
+
+def preference = [:]
+deps.preference = preference
+preference.preference = "androidx.preference:preference:$versions.preference" // Java language implementation
+preference.preference_ktx = "androidx.preference:preference-ktx:$versions.preference" // Kotlin
+
+def retrofit = [:]
+deps.retrofit = retrofit
+retrofit.okhttp = "com.squareup.okhttp3:okhttp:$versions.okhttp"
+retrofit.okhttp_logging_interceptor = "com.squareup.okhttp3:logging-interceptor:$versions.okhttp_logging"
+retrofit.retrofit = "com.squareup.retrofit2:retrofit:$versions.retrofit"
+retrofit.converter_moshi = "com.squareup.retrofit2:converter-moshi:$versions.retrofit"
+retrofit.moshi = "com.squareup.moshi:moshi:$versions.moshi"
+retrofit.kotshi_api = "se.ansman.kotshi:api:$versions.kotshi"
+retrofit.kotshi_compiler = "se.ansman.kotshi:compiler:$versions.kotshi"
+retrofit.retrofit2_kotlin_coroutines_adapter = "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$versions.retrofit2_kotlin_coroutines_adapter"
+
+def room = [:]
+deps.room = room
+room.runtime = "androidx.room:room-runtime:$versions.room"
+room.compiler = "androidx.room:room-compiler:$versions.room"
+room.ktx = "androidx.room:room-ktx:$versions.room" // optional - Kotlin Extensions and Coroutines support for Room
+room.testing = "androidx.room:room-testing:$versions.room" // optional - Test helpers
+
+
+/* ************************************************************************************** */
+/* ************************************************************************************** */
+/* di */
+koin.core = "org.koin:koin-core:$versions.koin" // Koin for Kotlin
+koin.core_ext = "org.koin:koin-core-ext:$versions.koin" // Koin extended & experimental features
+koin.test = "org.koin:koin-test:$versions.koin" // Koin for Unit tests
+koin.androidx_viewmodel = "org.koin:koin-androidx-viewmodel:$versions.koin" // Koin AndroidX ViewModel features
+
+
+/* ************************************************************************************** */
+/* ************************************************************************************** */
+/* test lib */
+versions.arch_core = "2.1.0"
+versions.atsl_runner = "1.3.0"
+versions.atsl_rules = "1.2.0"
+versions.espresso = "3.2.0"
+versions.junit5_core = "5.6.2"
+versions.junit5_android_test = "1.0.0"
+versions.mockk = "1.10.0"
+
+def arch_core = [:]
+deps.arch_core = arch_core
+arch_core.runtime = "androidx.arch.core:core-runtime:$versions.arch_core"
+arch_core.testing = "androidx.arch.core:core-testing:$versions.arch_core" // optional - Test helpers for LiveData
+
+atsl.runner = "androidx.test:runner:$versions.atsl_runner"
+atsl.rules = "androidx.test:rules:$versions.atsl_rules"
+
+coroutines.test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$versions.coroutines"
+
+def espresso = [:]
+deps.espresso = espresso
+espresso.core = "androidx.test.espresso:espresso-core:$versions.espresso"
+espresso.contrib = "androidx.test.espresso:espresso-contrib:$versions.espresso"
+
+junit5.api = "org.junit.jupiter:junit-jupiter-api:$versions.junit5_core" // (Required) Writing and executing Unit Tests on the JUnit Platform
+junit5.engine = "org.junit.jupiter:junit-jupiter-engine:$versions.junit5_core" // (Required) Writing and executing Unit Tests on the JUnit Platform
+junit5.params = "org.junit.jupiter:junit-jupiter-params:$versions.junit5_core" // (Optional) If you need "Parameterized Tests"
+junit5.android_test_core = "de.mannodermaus.junit5:android-test-core:$versions.junit5_android_test"
+junit5.android_test_runner = "de.mannodermaus.junit5:android-test-runner:$versions.junit5_android_test"
+
+def mockk = [:]
+deps.mockk = mockk
+mockk.mockk = "io.mockk:mockk:$versions.mockk"

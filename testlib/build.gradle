@@ -1,0 +1,81 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'de.mannodermaus.android-junit5'
+
+android {
+    compileSdkVersion build_versions.target_sdk
+    buildToolsVersion build_versions.build_tools
+
+    defaultConfig {
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
+        versionCode 1
+        versionName "1.0"
+
+        // Use AndroidX test runner
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        // 2) Connect JUnit 5 to the runner
+        testInstrumentationRunnerArgument(
+            "runnerBuilder",
+            "de.mannodermaus.junit5.AndroidJUnit5Builder"
+        )
+        consumerProguardFiles("consumer-rules.pro")
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+        }
+    }
+
+    // 3) Java 8 is required, add this even if minSdkVersion is 26 or above)
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    // 4) JUnit 5 will bundle in files with identical paths; exclude them
+    packagingOptions {
+        exclude("META-INF/LICENSE*")
+    }
+
+}
+
+// 5) (Optional) If use ParameterizedTest ArgumentsProvider, this is required for set to recompile with "-jvm-target 1.8"
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+// for junit5
+tasks.withType(Test) {
+    useJUnitPlatform()
+}
+
+dependencies {
+    implementation deps.kotlin.stdlib
+
+    implementation deps.arch_core.runtime
+
+    api deps.mockk.mockk
+
+    api deps.junit5.api
+    runtimeOnly deps.junit5.engine
+    api deps.junit5.params
+
+    androidTestApi deps.atsl.runner
+    androidTestApi deps.junit5.android_test_core
+    androidTestRuntimeOnly deps.junit5.android_test_runner
+
+    // test for coroutine
+    api deps.coroutines.test
+    androidTestImplementation deps.espresso.core
+    androidTestImplementation deps.espresso.contrib
+
+}
+repositories {
+    mavenCentral()
+}

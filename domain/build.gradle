@@ -1,0 +1,45 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion build_versions.target_sdk
+    buildToolsVersion build_versions.build_tools
+
+    defaultConfig {
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    testImplementation project(":testlib")
+
+    implementation deps.kotlin.stdlib
+
+    implementation deps.lifecycle.viewmodel_ktx
+    implementation deps.lifecycle.livedata_ktx
+    implementation deps.lifecycle.runtime_ktx
+    implementation deps.lifecycle.viewmodel_savedstate
+    kapt deps.lifecycle.compiler
+    implementation deps.lifecycle.common_java8
+    implementation deps.lifecycle.service
+    implementation deps.lifecycle.process
+    implementation deps.lifecycle.reactivestreams_ktx
+    testImplementation deps.arch_core.testing
+}
+repositories {
+    mavenCentral()
+}

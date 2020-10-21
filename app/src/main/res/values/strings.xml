@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MvvmMultiModule</string>
+    <string name="hot_pepper_list_type_search_word">type search word</string>
+    <string name="hot_pepper_list_image_description_image">店舗画像</string>
+    <string name="hot_pepper_detail_image_description_image">@string/hot_pepper_list_image_description_image</string>
+    <string name="menu_get_10">10件ずつ取得</string>
+    <string name="menu_get_20">20件ずつ取得</string>
+</resources>

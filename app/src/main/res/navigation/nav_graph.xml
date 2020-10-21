@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/hotPepperListFragment">
+
+    <fragment
+        android:id="@+id/hotPepperListFragment"
+        android:name="com.example.mvvmmultimodulearchitecture.ui.fragment.HotPepperListFragment"
+        android:label="HotPepperList"
+        tools:layout="@layout/fragment_hot_pepper_list"
+        >
+        <action
+            android:id="@+id/action_hotPepperListFragment_to_hotPepperDetailFragment"
+            app:destination="@id/hotPepperDetailFragment" >
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/hotPepperDetailFragment"
+        android:name="com.example.mvvmmultimodulearchitecture.ui.fragment.HotPepperDetailFragment"
+        android:label="HotPepperDetail"
+        tools:layout="@layout/fragment_hot_pepper_detail"
+        >
+        <argument
+            android:name="shop"
+            app:argType="com.example.mvvmmultimodulearchitecture.domain.dto.Shop" />
+    </fragment>
+</navigation>

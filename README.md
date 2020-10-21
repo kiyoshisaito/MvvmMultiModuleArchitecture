@@ -4,8 +4,34 @@
 
 ## アーキテクチャサンプルの概要
 
-CleanArchitecture の考え方を一部取り入れた MVVM です。  
-以下に、どのようにして上図のようになったかを解説します。
+CleanArchitecture の考え方を一部取り入れた MVVM です。
+構成は以下のようなマルチモジュール構成になっています。
+
+### モジュール構成と主要ライブラリ
+- app
+  - UI、バックグラウンド系のAndroidコンポーネントを持つモジュール
+     - 画面遷移: [Navigation Component](https://developer.android.com/guide/navigation?hl=ja
+     )
+     - 画像取得: [Coil](https://github.com/coil-kt/coil)
+- domain
+  - ビジネスロジックを持つモジュール
+    - ViewModel、LifeCycleのための androidx.lifecycle系
+- repository
+  - データアクセスを持つモジュール
+    - Coroutine
+    - DB: [Room](https://developer.android.com/training/data-storage/room?hl=ja)
+    - HTTP通信: [Retrofit2](https://square.github.io/retrofit/)
+    - JsonParser: [Kotshi](https://github.com/ansman/kotshi)
+- di
+  - DI機能を持つモジュール
+    - DI: [Koin](https://github.com/InsertKoinIO/koin)
+- testlib
+  - テスト系の共通クラスを持つモジュール
+    - JUnit5: [JUnit5](https://github.com/mannodermaus/android-junit5)
+    - Mock: [mockk](https://github.com/mockk/mockk)
+
+以下に、どのようにして上図のようになったかを解説します。  
+(ライブラリはKotlinの言語仕様に合わせて簡単に書けるものやパフォーマンスが良いものを選んでいるつもりです。)
 
 ## アーキテクチャの方針
 
@@ -92,3 +118,8 @@ CleanArchitectureの基本的な考え方の1つである「関心事の分離�
 ドメインレイヤーとRepositoryレイヤーをユニットテスト対象とし、ビューレイヤーは変更頻度の高さとテスト難易度を考慮して対象としません。
 
 ドメインレイヤーとRepositoryレイヤーもすべてを対象とするわけではなく、効果の高いところのみを対象とします。
+
+## 参考サイト
+
+マルチモジュール化について
+[既存のアプリをマルチモジュール化する](https://droidkaigi.github.io/codelab-2020/ja/index.html#0)
